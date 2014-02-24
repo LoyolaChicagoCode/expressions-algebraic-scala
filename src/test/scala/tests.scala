@@ -4,8 +4,8 @@ import org.scalatest.FunSuite
 
 class tests extends FunSuite {
 
-  import scalaz.std.anyVal._ // for equ
   import scalaz.syntax.equal._
+  import scalaz.std.anyVal._ // for assert_=== to work on Int
   import scalamu._
   import behaviors._
 

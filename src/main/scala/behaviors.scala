@@ -2,7 +2,7 @@ package edu.luc.cs.cs372.expressionsAlgebraic
 
 object behaviors {
 
-  import scalamu._ // algebra types and injected cata method
+  import scalamu.Algebra
   import structures._
 
   // TODO parsing as unfold (prefix or postfix notation)

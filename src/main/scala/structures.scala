@@ -48,6 +48,9 @@ object structures {
    */
   type Expr = µ[ExprF]
 
+  /**
+   * Factory for creating Expr instances.
+   */
   object ExprFactory {
     def constant(c: Int): Expr = In(Constant(c))
     def uminus(r: Expr): Expr = In(UMinus(r))
