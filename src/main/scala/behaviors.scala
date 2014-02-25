@@ -10,7 +10,7 @@ object behaviors {
 
   // specific ExprF-algebras: note nonrecursive nature
 
-  def evaluate: Algebra[ExprF, Int] = {
+  val evaluate: Algebra[ExprF, Int] = {
     case Constant(c) => c
     case UMinus(r)   => -r
     case Plus(l, r)  => l + r
@@ -20,7 +20,7 @@ object behaviors {
     case Mod(l, r)   => l % r
   }
 
-  def size: Algebra[ExprF, Int] = {
+  val size: Algebra[ExprF, Int] = {
     case Constant(_) => 1
     case UMinus(r)   => 1 + r
     case Plus(l, r)  => 1 + l + r
@@ -30,7 +30,7 @@ object behaviors {
     case Mod(l, r)   => 1 + l + r
   }
 
-  def depth: Algebra[ExprF, Int] = {
+  val depth: Algebra[ExprF, Int] = {
     case Constant(_) => 1
     case UMinus(r)   => 1 + r
     case Plus(l, r)  => 1 + math.max(l, r)
