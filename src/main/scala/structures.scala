@@ -1,6 +1,6 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
-import scalaz.Functor
+import scalaz.{ Equal, Functor, Show }
 import scalamu._ // algebra types and injected cata method
 
 /*
@@ -29,13 +29,14 @@ object structures {
 
   /**
    * Implicit value for declaring `ExprF` as an instance of
-   * typeclass `Functor` in scalaz.
+   * typeclass `Functor` in scalaz. This requires us to define
+   * `map`.
    */
-  implicit object ExprFunctor extends Functor[ExprF] {
+  implicit object ExprFFunctor extends Functor[ExprF] {
     def map[A, B](fa: ExprF[A])(f: A => B): ExprF[B] = fa match {
       case Constant(v) => Constant(v)
       case UMinus(r)   => UMinus(f(r))
-      case Plus(l, r)  => Plus (f(l), f(r))
+      case Plus(l, r)  => Plus(f(l), f(r))
       case Minus(l, r) => Minus(f(l), f(r))
       case Times(l, r) => Times(f(l), f(r))
       case Div(l, r)   => Div (f(l), f(r))
@@ -44,9 +45,37 @@ object structures {
   }
 
   /**
+   * Implicit value for declaring `ExprF` as an instance of
+   * typeclass `Equal` in scalaz using `Equal`'s structural equality.
+   * This enables `===` and `assert_===` on `ExprF` instances.
+   */
+  implicit def ExprFEqual[A]: Equal[ExprF[A]] = Equal.equalA
+
+  /**
+   * Implicit value for declaring `ExprF` as an instance of
+   * typeclass `Show` in scalaz using `Show`'s default method.
+   * This is required for `===` and `assert_===` to work on `ExprF` instances.
+   */
+  implicit def ExprFShow[A]: Show[ExprF[A]] = Show.showFromToString
+
+  /**
    * Least fixpoint of `ExprF` as carrier object for the initial algebra.
    */
   type Expr = µ[ExprF]
+
+  /**
+   * Implicit value for declaring `Expr` as an instance of
+   * typeclass `Equal` in scalaz using `Equal`'s structural equality.
+   * This enables `===` and `assert_===` on `Expr` instances.
+   */
+  implicit val ExprEqual: Equal[Expr] = Equal.equalA
+
+  /**
+   * Implicit value for declaring `Expr` as an instance of
+   * typeclass `Show` in scalaz using `Show`'s default method.
+   * This is required for `===` and `assert_===` to work on `Expr` instances.
+   */
+  implicit val ExprShow: Show[Expr] = Show.showFromToString
 
   /**
    * Factory for creating Expr instances.
