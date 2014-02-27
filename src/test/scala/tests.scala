@@ -1,12 +1,12 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
 import org.scalatest.FunSuite
+import scalaz.syntax.equal._
+import scalaz.std.anyVal._ // for assert_=== to work on Int
 
 class tests extends FunSuite {
 
-  import scalaz.syntax.equal._
-  import scalaz.std.anyVal._ // for assert_=== to work on Int
-  import scalamu._
+  import scalamu.ToMuOps
   import behaviors._
 
   test("evaluate works") {
