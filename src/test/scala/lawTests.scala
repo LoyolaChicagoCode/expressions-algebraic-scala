@@ -25,6 +25,8 @@ class lawTests extends FunSuite {
     implicit def ExprFArbitrary[A](implicit a: Arbitrary[A]): Arbitrary[ExprF[A]] =
       a map { a => (Plus(a, a): ExprF[A]) }
 
+    // TODO figure out how to integrate these checks better with ScalaTest
+    //      so that the test fails if one of the checks does
     equal.laws[ExprF[Int]].check
     functor.laws[ExprF].check
   }
