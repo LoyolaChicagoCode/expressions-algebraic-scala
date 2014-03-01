@@ -64,20 +64,6 @@ object structures {
   type Expr = µ[ExprF]
 
   /**
-   * Implicit value for declaring `Expr` as an instance of
-   * typeclass `Equal` in scalaz using `Equal`'s structural equality.
-   * This enables `===` and `assert_===` on `Expr` instances.
-   */
-  implicit val ExprEqual: Equal[Expr] = Equal.equalA
-
-  /**
-   * Implicit value for declaring `Expr` as an instance of
-   * typeclass `Show` in scalaz using `Show`'s default method.
-   * This is required for `===` and `assert_===` to work on `Expr` instances.
-   */
-  implicit val ExprShow: Show[Expr] = Show.showFromToString
-
-  /**
    * Factory for creating Expr instances.
    */
   object ExprFactory {

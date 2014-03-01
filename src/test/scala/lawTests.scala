@@ -3,6 +3,7 @@ package edu.luc.cs.cs372.expressionsAlgebraic
 import org.scalatest.FunSuite
 import scalaz.syntax.equal._
 import scalaz.std.anyVal._
+import scalamu._
 
 class lawTests extends FunSuite {
 
