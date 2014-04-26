@@ -4,7 +4,7 @@ version := "0.0.2"
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
-seq(bintrayResolverSettings:_*)
+resolvers += "laufer@bintray" at "http://dl.bintray.com/laufer/maven"
 
 libraryDependencies ++= Seq(
   "edu.luc.etl" %% "scalamu" % "0.2.2",
