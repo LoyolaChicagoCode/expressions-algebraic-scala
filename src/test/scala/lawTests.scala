@@ -1,8 +1,8 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
 import org.scalatest.FunSuite
-import scalaz.syntax.equal._
 import scalaz.std.anyVal._
+import scalaz.syntax.equal._
 import scalamu._
 
 class lawTests extends FunSuite {
@@ -14,6 +14,13 @@ class lawTests extends FunSuite {
     (Constant(3): ExprF[Int]) assert_=== (Constant(3): ExprF[Int])
     constant(3) assert_=== constant(3)
     uminus(constant(3)) assert_=== uminus(constant(3))
+  }
+
+  test("show works") {
+    import scalaz.syntax.show._
+    import scalaz.std.string._
+    (UMinus(Constant(3)): ExprF[ExprF[Int]]).shows assert_=== "UMinus(Constant(3))"
+    uminus(constant(3)).shows assert_=== "Cofree((),UMinus(Cofree((),Constant(3))))"
   }
 
   test("equality and functor laws hold for ExprF") {
