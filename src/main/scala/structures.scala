@@ -7,7 +7,6 @@ import scalamu._ // algebra types and injected cata method
  * In this example, we represent arithmetic expressions as trees
  * (initial algebra for the endofunctor defined next).
  */
-
 object structures {
 
   /**
@@ -46,26 +45,48 @@ object structures {
 
   /**
    * Implicit value for declaring `ExprF` as an instance of
-   * typeclass `Equal` in scalaz using `Equal`'s structural equality.
+   * typeclass `Equal` in scalaz using structural equality.
    * This enables `===` and `assert_===` on `ExprF` instances.
    */
-  implicit def ExprFEqual[A]: Equal[ExprF[A]] = Equal.equalA
+  private trait ExprFEqual[A] extends Equal[ExprF[A]] {
+    implicit def A: Equal[A]
+    override def equalIsNatural: Boolean = A.equalIsNatural
+    override def equal(a1: ExprF[A], a2: ExprF[A]) = (a1, a2) match {
+      case (Constant(v), Constant(w)) => v == w
+      case (UMinus(r), UMinus(t))     => A.equal(r, t)
+      case (Plus(l, r), Plus(s, t))   => A.equal(l, s) && A.equal(r, t)
+      case (Minus(l, r), Minus(s, t)) => A.equal(l, s) && A.equal(r, t)
+      case (Times(l, r), Times(s, t)) => A.equal(l, s) && A.equal(r, t)
+      case (Div(l, r), Div(s, t))     => A.equal(l, s) && A.equal(r, t)
+      case (Mod(l, r), Mod(s, t))     => A.equal(l, s) && A.equal(r, t)
+      case _ => false
+    }
+  }
+  implicit def exprFEqual[A](implicit A0: Equal[A]): Equal[ExprF[A]] = new ExprFEqual[A] {
+    implicit def A = A0
+  }
 
   /**
    * Implicit value for declaring `ExprF` as an instance of
    * typeclass `Show` in scalaz using `Show`'s default method.
    * This is required for `===` and `assert_===` to work on `ExprF` instances.
    */
-  implicit def ExprFShow[A]: Show[ExprF[A]] = Show.showFromToString
+  implicit def exprFShow[A](implicit A: Show[A]): Show[ExprF[A]] = new Show[ExprF[A]] {
+    override def show(e: ExprF[A]): scalaz.Cord = e match {
+      case Constant(v) => "Constant(" ++ v.toString ++ ")"
+      case UMinus(r)   => "UMinus(" +: A.show(r) :+ ")"
+      case Plus(l, r)  => ("Plus("  +: A.show(l) :+ ",") ++ A.show(r) :+ ")"
+      case Minus(l, r) => ("Minus(" +: A.show(l) :+ ",") ++ A.show(r) :+ ")"
+      case Times(l, r) => ("Times(" +: A.show(l) :+ ",") ++ A.show(r) :+ ")"
+      case Div(l, r)   => ("Div("   +: A.show(l) :+ ",") ++ A.show(r) :+ ")"
+      case Mod(l, r)   => ("Mod("   +: A.show(l) :+ ",") ++ A.show(r) :+ ")"
+    }
+  }
 
-  /**
-   * Least fixpoint of `ExprF` as carrier object for the initial algebra.
-   */
+  /** Least fixpoint of `ExprF` as carrier object for the initial algebra. */
   type Expr = µ[ExprF]
 
-  /**
-   * Factory for creating Expr instances.
-   */
+  /** Factory for creating Expr instances. */
   object ExprFactory {
     def constant(c: Int): Expr = In(Constant(c))
     def uminus(r: Expr): Expr = In(UMinus(r))
