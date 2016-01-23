@@ -45,7 +45,7 @@ object structures {
 
   /**
    * Implicit value for declaring `ExprF` as an instance of
-   * typeclass `Equal` in scalaz using structural equality.
+   * scalaz typeclass `Equal` using structural equality.
    * This enables `===` and `assert_===` on `ExprF` instances.
    */
   private trait ExprFEqual[A] extends Equal[ExprF[A]] {
@@ -68,8 +68,7 @@ object structures {
 
   /**
    * Implicit value for declaring `ExprF` as an instance of
-   * typeclass `Show` in scalaz using `Show`'s default method.
-   * This is required for `===` and `assert_===` to work on `ExprF` instances.
+   * scalaz typeclass `Show`. This enables `.show` on `ExprF` instances.
    */
   implicit def exprFShow[A](implicit A: Show[A]): Show[ExprF[A]] = new Show[ExprF[A]] {
     override def show(e: ExprF[A]): scalaz.Cord = e match {
