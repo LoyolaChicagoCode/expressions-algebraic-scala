@@ -7,7 +7,7 @@ import scalaz.std.option._ // for assert_=== to work on Option
 
 class behaviorTests extends FunSuite {
 
-  import scalamu.ToMuOps
+  import scalamu._
   import behaviors._
 
   test("evaluate works") {
