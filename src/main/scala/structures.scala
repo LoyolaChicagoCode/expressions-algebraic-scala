@@ -36,12 +36,12 @@ object structures {
   implicit object exprFFunctor extends Functor[ExprF] {
     def map[A, B](fa: ExprF[A])(f: A => B): ExprF[B] = fa match {
       case Constant(v) => Constant(v)
-      case UMinus(r) => UMinus(f(r))
-      case Plus(l, r) => Plus(f(l), f(r))
+      case UMinus(r)   => UMinus(f(r))
+      case Plus(l, r)  => Plus(f(l), f(r))
       case Minus(l, r) => Minus(f(l), f(r))
       case Times(l, r) => Times(f(l), f(r))
-      case Div(l, r) => Div(f(l), f(r))
-      case Mod(l, r) => Mod(f(l), f(r))
+      case Div(l, r)   => Div(f(l), f(r))
+      case Mod(l, r)   => Mod(f(l), f(r))
     }
   }
 
@@ -52,13 +52,13 @@ object structures {
    */
   implicit def exprFEqual[A](implicit A: Equal[A]): Equal[ExprF[A]] = Equal.equal {
     case (Constant(v), Constant(w)) => v === w
-    case (UMinus(r), UMinus(t)) => r === t
-    case (Plus(l, r), Plus(s, t)) => (l === s) && (r === t)
+    case (UMinus(r), UMinus(t))     => r === t
+    case (Plus(l, r), Plus(s, t))   => (l === s) && (r === t)
     case (Minus(l, r), Minus(s, t)) => (l === s) && (r === t)
     case (Times(l, r), Times(s, t)) => (l === s) && (r === t)
-    case (Div(l, r), Div(s, t)) => (l === s) && (r === t)
-    case (Mod(l, r), Mod(s, t)) => (l === s) && (r === t)
-    case _ => false
+    case (Div(l, r), Div(s, t))     => (l === s) && (r === t)
+    case (Mod(l, r), Mod(s, t))     => (l === s) && (r === t)
+    case _                          => false
   }
 
   /** Least fixpoint of `ExprF` as carrier object for the initial algebra. */
