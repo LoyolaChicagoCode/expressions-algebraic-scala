@@ -49,7 +49,8 @@ object lawTests extends Properties("lawTests") {
   property("equalsExprFInt") = equal.laws[ExprF[Int]]
   property("equalsExprFExprFInt") = equal.laws[ExprF[ExprF[Int]]]
   property("equalsExprFExprFExprFInt") = equal.laws[ExprF[ExprF[ExprF[Int]]]]
-  property("equalsExpr") = equal.laws[Expr]
+  // FIXME https://github.com/LoyolaChicagoCode/expressions-algebraic-scala/issues/15
+  // property("equalsExpr") = equal.laws[Expr]
 
   property("functorExprF") = functor.laws[ExprF]
   property("traverseExprF") = traverse.laws[ExprF]
