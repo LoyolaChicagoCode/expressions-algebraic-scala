@@ -1,14 +1,18 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
+import matryoshka.Algebra
+
+/**
+ * In this example, we define several behaviors of arithmetic expressions
+ * as specific ExprF-algebras. Note the nonrecursive nature of these
+ * algebras.
+ */
 object behaviors {
 
-  import scalamu.Algebra
   import structures._
 
   // TODO parsing as unfold (prefix or postfix notation)
   // TODO unparsing/printing
-
-  // specific ExprF-algebras: note nonrecursive nature
 
   /** Evaluates an expression to a value. */
   val evaluate: Algebra[ExprF, Int] = {
