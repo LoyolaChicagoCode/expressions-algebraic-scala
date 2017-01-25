@@ -1,34 +1,26 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
-import org.scalatest.FunSuite
-import scalaz.syntax.equal._
-import scalaz.std.anyVal._ // for assert_=== to work on Int
-import scalaz.std.option._ // for assert_=== to work on Option
+import matryoshka._
+import matryoshka.implicits._
+import org.scalacheck.{ Prop, Properties }
 
-class behaviorTests extends FunSuite {
+object behaviorTests extends Properties("behaviorTests") {
 
-  import scalamu._
+  import structures.fixRecursiveT
   import behaviors._
+  import structures.exprFFunctor
 
-  test("evaluate works") {
-    fixtures.complex1 cata evaluate assert_=== -1
-    fixtures.complex2 cata evaluate assert_=== 0
-  }
+  property("evaluate1") = Prop { fixtures.complex1.cata(evaluate) == -1 }
+  property("evaluate2") = Prop { fixtures.complex2.cata(evaluate) == 0 }
 
-  test("size works") {
-    fixtures.complex1 cata size assert_=== 9
-    fixtures.complex2 cata size assert_=== 10
-  }
+  property("size1") = Prop { fixtures.complex1.cata(size) == 9 }
+  property("size2") = Prop { fixtures.complex2.cata(size) == 10 }
 
-  test("height works") {
-    fixtures.complex1 cata height assert_=== 4
-    fixtures.complex2 cata height assert_=== 5
-  }
+  property("height1") = Prop { fixtures.complex1.cata(height) == 4 }
+  property("height2") = Prop { fixtures.complex2.cata(height) == 5 }
 
-  test("evaluateNat works") {
-    fixtures.simple1 cata evaluateNat assert_=== Some(3)
-    fixtures.simple2 cata evaluateNat assert_=== Some(1)
-    fixtures.complex1 cata evaluateNat assert_=== None
-    fixtures.complex2 cata evaluateNat assert_=== None
-  }
+  property("evaluateNat1") = Prop { fixtures.simple1.cata(evaluateNat) == Some(3) }
+  property("evaluateNat2") = Prop { fixtures.simple2.cata(evaluateNat) == Some(1) }
+  property("evaluateNat3") = Prop { fixtures.complex1.cata(evaluateNat) == None }
+  property("evaluateNat4") = Prop { fixtures.complex2.cata(evaluateNat) == None }
 }

@@ -1,13 +1,12 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
-import scalaz.{ Equal, Functor }
-import scalaz.std.anyVal._
-import scalaz.syntax.equal._
-import scalamu._ // algebra types and injected cata method
+import scalaz.{ Applicative, Equal, Functor, Show, Traverse }
+import matryoshka.{ Delay, BirecursiveT, birecursiveTBirecursive }
+import matryoshka.data.Fix
 
-/*
+/**
  * In this example, we represent arithmetic expressions as trees
- * (initial algebra for the endofunctor defined next).
+ * (initial algebra for the endofunctor defined below).
  */
 object structures {
 
@@ -20,7 +19,7 @@ object structures {
    * @tparam A argument of the endofunctor
    */
   sealed trait ExprF[+A]
-  case class Constant(value: Int) extends ExprF[Nothing]
+  case class Constant[A](value: Int) extends ExprF[A]
   case class UMinus[A](expr: A) extends ExprF[A]
   case class Plus[A](left: A, right: A) extends ExprF[A]
   case class Minus[A](left: A, right: A) extends ExprF[A]
@@ -33,9 +32,9 @@ object structures {
    * typeclass `Functor` in scalaz. This requires us to define
    * `map`.
    */
-  implicit object exprFFunctor extends Functor[ExprF] {
+  object exprFFunctor extends Functor[ExprF] {
     def map[A, B](fa: ExprF[A])(f: A => B): ExprF[B] = fa match {
-      case Constant(v) => Constant(v)
+      case Constant(v) => Constant[B](v)
       case UMinus(r)   => UMinus(f(r))
       case Plus(l, r)  => Plus(f(l), f(r))
       case Minus(l, r) => Minus(f(l), f(r))
@@ -47,31 +46,45 @@ object structures {
 
   /**
    * Implicit value for declaring `ExprF` as an instance of
-   * scalaz typeclass `Equal` using structural equality.
-   * This enables `===` and `assert_===` on `ExprF` instances.
+   * typeclass `Traverse` in scalaz. This requires us to define
+   * `traverseImpl`.
    */
-  implicit def exprFEqual[A](implicit A: Equal[A]): Equal[ExprF[A]] = Equal.equal {
-    case (Constant(v), Constant(w)) => v === w
-    case (UMinus(r), UMinus(t))     => r === t
-    case (Plus(l, r), Plus(s, t))   => (l === s) && (r === t)
-    case (Minus(l, r), Minus(s, t)) => (l === s) && (r === t)
-    case (Times(l, r), Times(s, t)) => (l === s) && (r === t)
-    case (Div(l, r), Div(s, t))     => (l === s) && (r === t)
-    case (Mod(l, r), Mod(s, t))     => (l === s) && (r === t)
-    case _                          => false
+  implicit object exprFTraverse extends Traverse[ExprF] {
+    def traverseImpl[G[_], A, B](fa: ExprF[A])(f: A => G[B])(implicit a: Applicative[G]): G[ExprF[B]] = fa match {
+      case Constant(v) => a.point(Constant(v))
+      case UMinus(r)   => a.map(f(r))(UMinus(_))
+      case Plus(l, r)  => a.apply2(f(l), f(r))(Plus(_, _))
+      case Minus(l, r) => a.apply2(f(l), f(r))(Minus(_, _))
+      case Times(l, r) => a.apply2(f(l), f(r))(Times(_, _))
+      case Div(l, r)   => a.apply2(f(l), f(r))(Div(_, _))
+      case Mod(l, r)   => a.apply2(f(l), f(r))(Mod(_, _))
+    }
   }
 
   /** Least fixpoint of `ExprF` as carrier object for the initial algebra. */
-  type Expr = µ[ExprF]
+  type Expr = Fix[ExprF]
 
   /** Factory for creating Expr instances. */
-  object ExprFactory {
-    def constant(c: Int) = In[ExprF](Constant(c))
-    def uminus(r: Expr) = In[ExprF](UMinus(r))
-    def plus(l: Expr, r: Expr) = In[ExprF](Plus(l, r))
-    def minus(l: Expr, r: Expr) = In[ExprF](Minus(l, r))
-    def times(l: Expr, r: Expr) = In[ExprF](Times(l, r))
-    def div(l: Expr, r: Expr) = In[ExprF](Div(l, r))
-    def mod(l: Expr, r: Expr) = In[ExprF](Mod(l, r))
+  object Expr {
+    def constant(c: Int) = Fix[ExprF](Constant(c))
+    def uminus(r: Expr) = Fix[ExprF](UMinus(r))
+    def plus(l: Expr, r: Expr) = Fix[ExprF](Plus(l, r))
+    def minus(l: Expr, r: Expr) = Fix[ExprF](Minus(l, r))
+    def times(l: Expr, r: Expr) = Fix[ExprF](Times(l, r))
+    def div(l: Expr, r: Expr) = Fix[ExprF](Div(l, r))
+    def mod(l: Expr, r: Expr) = Fix[ExprF](Mod(l, r))
+  }
+
+  /** Workaround ambiguous implicits in matryoshka. */
+  implicit def fixRecursiveT(implicit r: BirecursiveT[Fix]) = birecursiveTBirecursive(r)
+
+  /** Also gives rise to non-delayed Equal instance for ExprF but not Expr. */
+  implicit object exprFEqualD extends Delay[Equal, ExprF] {
+    def apply[A](a: Equal[A]) = Equal.equal { (a, b) => a == b }
+  }
+
+  /** Also gives rise to non-delayed Show instance for ExprF but not Expr. */
+  implicit object exprFShowD extends Delay[Show, ExprF] {
+    def apply[A](a: Show[A]) = Show.shows { _.toString }
   }
 }
