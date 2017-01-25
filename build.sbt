@@ -1,16 +1,13 @@
 name := "expressions-algebraic-scala"
 
-version := "0.0.3"
+version := "0.1.0"
 
 scalaVersion := "2.11.8"
 
-scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
-
-resolvers += "laufer@bintray" at "http://dl.bintray.com/laufer/maven"
+scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-language:higherKinds")
 
 libraryDependencies ++= Seq(
-  "edu.luc.etl" %% "scalamu" % "0.4.5",
-  "org.scalatest" %% "scalatest" % "2.2.6" % Test,
-  "org.scalacheck" %% "scalacheck" % "1.12.6" % Test,
-  "org.scalaz" %% "scalaz-scalacheck-binding" % "7.2.8" % Test
+  "org.scalaz"     %% "scalaz-core"           % "7.2.8",
+  "com.slamdata"   %% "matryoshka-core"       % "0.16.4",
+  "com.slamdata"   %% "matryoshka-scalacheck" % "0.16.4" % Test
 )
