@@ -1,10 +1,7 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
-import scalaz.{ Equal, Functor }
-import scalaz.syntax.functor._
 import scalaz.syntax.apply._
 import scalaz.std.anyVal._
-import scalaz.scalacheck.ScalazArbitrary._
 import scalaz.scalacheck.ScalaCheckBinding._
 import scalaz.scalacheck.ScalazProperties._
 import org.scalacheck.{ Arbitrary, Gen, Prop, Properties }
