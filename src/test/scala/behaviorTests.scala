@@ -6,7 +6,6 @@ import org.scalacheck.{ Prop, Properties }
 
 object behaviorTests extends Properties("behaviorTests") {
 
-  import structures.fixRecursiveT
   import behaviors._
   import structures.exprFFunctor
 

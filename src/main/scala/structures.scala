@@ -75,9 +75,6 @@ object structures {
     def mod(l: Expr, r: Expr) = Fix[ExprF](Mod(l, r))
   }
 
-  /** Workaround ambiguous implicits in matryoshka. */
-  implicit def fixRecursiveT(implicit r: BirecursiveT[Fix]) = birecursiveTBirecursive(r)
-
   /** Also gives rise to non-delayed Equal instance for ExprF but not Expr. */
   implicit object exprFEqualD extends Delay[Equal, ExprF] {
     def apply[A](a: Equal[A]) = Equal.equalA[ExprF[A]]
