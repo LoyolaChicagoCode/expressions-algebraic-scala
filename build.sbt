@@ -1,4 +1,4 @@
-name := "matryoshka-examples-scala"
+name := "expressions-algebraic-scala"
 
 version := "0.1.0"
 
