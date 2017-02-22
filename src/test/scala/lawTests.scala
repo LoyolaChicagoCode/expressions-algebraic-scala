@@ -1,10 +1,7 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
-import scalaz.{ Equal, Functor }
-import scalaz.syntax.functor._
-import scalaz.syntax.apply._
+import scalaz.syntax.applicative._
 import scalaz.std.anyVal._
-import scalaz.scalacheck.ScalazArbitrary._
 import scalaz.scalacheck.ScalaCheckBinding._
 import scalaz.scalacheck.ScalazProperties._
 import org.scalacheck.{ Arbitrary, Gen, Prop, Properties }
@@ -25,8 +22,8 @@ object lawTests extends Properties("lawTests") {
 
   // TODO check if Traverse can help with this
 
-  def genConstant[A](g: Gen[Int]) = g.map(Constant(_))
-  def genUMinus[A](g: Gen[A]) = g.map(UMinus(_))
+  def genConstant(g: Gen[Int]) = g ∘ (Constant(_))
+  def genUMinus[A](g: Gen[A]) = g ∘ (UMinus(_))
   def genPlus[A](g: Gen[A]) = (g ⊛ g)(Plus(_, _))
   def genMinus[A](g: Gen[A]) = (g ⊛ g)(Minus(_, _))
   def genTimes[A](g: Gen[A]) = (g ⊛ g)(Times(_, _))
@@ -46,12 +43,13 @@ object lawTests extends Properties("lawTests") {
     }
   }
 
-  property("equalsExprFInt") = equal.laws[ExprF[Int]]
-  property("equalsExprFExprFInt") = equal.laws[ExprF[ExprF[Int]]]
-  property("equalsExprFExprFExprFInt") = equal.laws[ExprF[ExprF[ExprF[Int]]]]
-  // FIXME https://github.com/LoyolaChicagoCode/expressions-algebraic-scala/issues/15
-  // property("equalsExpr") = equal.laws[Expr]
+  include(equal.laws[ExprF[Int]], "equalExprFInt.")
+  include(equal.laws[ExprF[ExprF[Int]]], "equalExprF2Int.")
+  include(equal.laws[ExprF[ExprF[ExprF[Int]]]], "equalExprF3Int.")
 
-  property("functorExprF") = functor.laws[ExprF]
-  property("traverseExprF") = traverse.laws[ExprF]
+  // FIXME https://github.com/LoyolaChicagoCode/expressions-algebraic-scala/issues/15
+  include(equal.laws[Expr], "equalExpr.")
+
+  include(functor.laws[ExprF], "functorExprF.")
+  include(traverse.laws[ExprF], "traverseExpr.F")
 }
