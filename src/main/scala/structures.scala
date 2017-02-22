@@ -79,12 +79,12 @@ object structures {
     def mod(l: Expr, r: Expr) = Fix[ExprF](Mod(l, r))
   }
 
-  /** Also gives rise to non-delayed Equal instance for ExprF but not Expr. */
+  /** Also gives rise to non-delayed `Equal` instances for `ExprF` and `Expr`. */
   implicit object exprFEqualD extends Delay[Equal, ExprF] {
     def apply[A](a: Equal[A]) = Equal.equalA[ExprF[A]]
   }
 
-  /** Also gives rise to non-delayed Show instance for ExprF but not Expr. */
+  /** Also gives rise to non-delayed `Show` instances for `ExprF` and `Expr`. */
   implicit object exprFShowD extends Delay[Show, ExprF] {
     def apply[A](a: Show[A]) = Show.showFromToString[ExprF[A]]
   }
