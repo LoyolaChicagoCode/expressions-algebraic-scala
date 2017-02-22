@@ -1,6 +1,6 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
-import scalaz.syntax.apply._
+import scalaz.syntax.applicative._
 import scalaz.std.anyVal._
 import scalaz.scalacheck.ScalaCheckBinding._
 import scalaz.scalacheck.ScalazProperties._
@@ -22,8 +22,8 @@ object lawTests extends Properties("lawTests") {
 
   // TODO check if Traverse can help with this
 
-  def genConstant[A](g: Gen[Int]) = g.map(Constant(_))
-  def genUMinus[A](g: Gen[A]) = g.map(UMinus(_))
+  def genConstant(g: Gen[Int]) = g ∘ (Constant(_))
+  def genUMinus[A](g: Gen[A]) = g ∘ (UMinus(_))
   def genPlus[A](g: Gen[A]) = (g ⊛ g)(Plus(_, _))
   def genMinus[A](g: Gen[A]) = (g ⊛ g)(Minus(_, _))
   def genTimes[A](g: Gen[A]) = (g ⊛ g)(Times(_, _))
