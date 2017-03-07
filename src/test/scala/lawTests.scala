@@ -51,5 +51,5 @@ object lawTests extends Properties("lawTests") {
   //include(equal.laws[Expr], "equalExpr.")
 
   include(functor.laws[ExprF], "functorExprF.")
-  include(traverse.laws[ExprF], "traverseExpr.F")
+  include(traverse.laws[ExprF], "traverseExprF.")
 }
