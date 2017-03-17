@@ -21,7 +21,8 @@ object lawTests extends Properties("lawTests") {
   property("toString1") = Prop { uminus(constant(3)).toString == "Fix(UMinus(Fix(Constant(3))))" }
 
   // TODO check if Traverse can help with this
-
+  // η = point, ∘ = map, ⊛ = apply2
+  
   def genConstant(g: Gen[Int]) = g ∘ (Constant(_))
   def genUMinus[A](g: Gen[A]) = g ∘ (UMinus(_))
   def genPlus[A](g: Gen[A]) = (g ⊛ g)(Plus(_, _))
