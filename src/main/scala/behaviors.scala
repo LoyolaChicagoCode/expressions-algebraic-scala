@@ -3,10 +3,10 @@ package edu.luc.cs.cs372.expressionsAlgebraic
 import matryoshka.Algebra
 
 /**
- * In this example, we define several behaviors of arithmetic expressions
- * as specific ExprF-algebras. Note the nonrecursive nature of these
- * algebras.
- */
+  * In this example, we define several behaviors of arithmetic expressions
+  * as specific ExprF-algebras. Note the nonrecursive nature of these
+  * algebras.
+  */
 object behaviors {
 
   import structures._
@@ -48,10 +48,10 @@ object behaviors {
   }
 
   /**
-   * Evaluates an expression representing a natural number.
-   * If any of the partial results becomes negative,
-   * evaluation fails.
-   */
+    * Evaluates an expression representing a natural number.
+    * If any of the partial results becomes negative,
+    * evaluation fails.
+    */
   val evaluateNat: Algebra[ExprF, Option[Int]] = {
     case Constant(c) => for { v <- Some(c); if v >= 0 } yield v
     case UMinus(r)   => None

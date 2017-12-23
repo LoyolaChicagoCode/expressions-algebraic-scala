@@ -4,7 +4,7 @@ import scalaz.syntax.applicative._
 import scalaz.std.anyVal._
 import scalaz.scalacheck.ScalaCheckBinding._
 import scalaz.scalacheck.ScalazProperties._
-import org.scalacheck.{ Arbitrary, Gen, Prop, Properties }
+import org.scalacheck.{Arbitrary, Gen, Prop, Properties}
 import Gen._
 import Arbitrary._
 
@@ -22,7 +22,7 @@ object lawTests extends Properties("lawTests") {
 
   // TODO check if Traverse can help with this
   // η = point, ∘ = map, ⊛ = apply2
-  
+
   def genConstant(g: Gen[Int]) = g ∘ (Constant(_))
   def genUMinus[A](g: Gen[A]) = g ∘ (UMinus(_))
   def genPlus[A](g: Gen[A]) = (g ⊛ g)(Plus(_, _))

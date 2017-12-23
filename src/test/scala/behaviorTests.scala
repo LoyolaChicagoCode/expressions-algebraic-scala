@@ -1,6 +1,6 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
-import org.scalacheck.{ Prop, Properties }
+import org.scalacheck.{Prop, Properties}
 
 object behaviorTests extends Properties("behaviorTests") {
 
