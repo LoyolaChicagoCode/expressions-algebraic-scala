@@ -18,6 +18,6 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 
 libraryDependencies ++= Seq(
   "org.scalaz"     %% "scalaz-core"           % "7.2.20",
-  "com.slamdata"   %% "matryoshka-core"       % "0.17.2",
-  "com.slamdata"   %% "matryoshka-scalacheck" % "0.17.2" % Test
+  "com.slamdata"   %% "matryoshka-core"       % "0.21.3",
+  "com.slamdata"   %% "matryoshka-scalacheck" % "0.21.3" % Test
 )
