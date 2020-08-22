@@ -12,9 +12,7 @@ scalacOptions ++= Seq(
   "-Ypartial-unification"
 )
 
-//addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.11.0")
-
-//resolvers += Resolver.sonatypeRepo("snapshots")
+addCompilerPlugin("org.typelevel" % "kind-projector_2.12.12" % "0.11.0")
 
 libraryDependencies ++= Seq(
   "org.scalaz"     %% "scalaz-core"           % "7.3.2",
