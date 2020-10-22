@@ -1,4 +1,4 @@
-package edu.luc.cs.cs372.expressionsAlgebraic
+package edu.luc.cs.cs371.expressionsAlgebraic
 
 import higherkindness.droste._
 
