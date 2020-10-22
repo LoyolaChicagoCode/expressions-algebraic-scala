@@ -2,7 +2,7 @@ package edu.luc.cs.cs371.expressionsAlgebraic
 
 import higherkindness.droste._
 
-import org.scalacheck.{ Prop, Properties }
+import org.scalacheck.{Prop, Properties}
 
 import behaviors._
 
