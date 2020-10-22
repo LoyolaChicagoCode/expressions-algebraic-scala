@@ -1,23 +1,28 @@
 package edu.luc.cs.cs372.expressionsAlgebraic
 
-import org.scalacheck.{Prop, Properties}
+import higherkindness.droste._
+
+import org.scalacheck.{ Prop, Properties }
+
+import behaviors._
 
 object behaviorTests extends Properties("behaviorTests") {
 
-  import matryoshka.implicits._
-  import behaviors._
+  val ev = scheme.cata(evaluate)
+  property("evaluate1") = Prop { ev(fixtures.complex1) == -1 }
+  property("evaluate2") = Prop { ev(fixtures.complex2) == 0 }
 
-  property("evaluate1") = Prop { (fixtures.complex1 cata evaluate) == -1 }
-  property("evaluate2") = Prop { (fixtures.complex2 cata evaluate) == 0 }
+  val si = scheme.cata(size)
+  property("size1") = Prop { si(fixtures.complex1) == 9 }
+  property("size2") = Prop { si(fixtures.complex2) == 10 }
 
-  property("size1") = Prop { (fixtures.complex1 cata size) == 9 }
-  property("size2") = Prop { (fixtures.complex2 cata size) == 10 }
+  val he = scheme.cata(height)
+  property("height1") = Prop { he(fixtures.complex1) == 4 }
+  property("height2") = Prop { he(fixtures.complex2) == 5 }
 
-  property("height1") = Prop { (fixtures.complex1 cata height) == 4 }
-  property("height2") = Prop { (fixtures.complex2 cata height) == 5 }
-
-  property("evaluateNat1") = Prop { (fixtures.simple1 cata evaluateNat) == Some(3) }
-  property("evaluateNat2") = Prop { (fixtures.simple2 cata evaluateNat) == Some(1) }
-  property("evaluateNat3") = Prop { (fixtures.complex1 cata evaluateNat) == None }
-  property("evaluateNat4") = Prop { (fixtures.complex2 cata evaluateNat) == None }
+  val en = scheme.cata(evaluateNat)
+  property("evaluateNat1") = Prop { en(fixtures.simple1) == Some(3) }
+  property("evaluateNat2") = Prop { en(fixtures.simple2) == Some(1) }
+  property("evaluateNat3") = Prop { en(fixtures.complex1) == None }
+  property("evaluateNat4") = Prop { en(fixtures.complex2) == None }
 }
