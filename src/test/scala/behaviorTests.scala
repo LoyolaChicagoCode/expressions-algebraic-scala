@@ -1,11 +1,12 @@
 package edu.luc.cs.cs371.expressionsAlgebraic
 
 import cats.implicits._
-import edu.luc.cs.cs371.expressionsAlgebraic.behaviors._
 import higherkindness.droste._
 import org.scalacheck.{Prop, Properties}
 
 object behaviorTests extends Properties("behaviorTests") {
+
+  import behaviors._
 
   val ev = scheme.cata(evaluate)
   property("evaluate1") = Prop { ev(fixtures.complex1) === -1 }
