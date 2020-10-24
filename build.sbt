@@ -15,7 +15,6 @@ addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVers
 
 libraryDependencies ++= Seq(
   "io.higherkindness"          %% "droste-core"               % "0.8.0",
-  "org.scalatest"              %% "scalatest"                 % "3.2.2",
   "io.chrisdavenport"          %% "cats-scalacheck"           % "0.3.0" % Test,
   "org.typelevel"              %% "cats-laws"                 % "2.0.0" % Test,
   "com.github.alexarchambault" %% "scalacheck-shapeless_1.14" % "1.2.3" % Test
