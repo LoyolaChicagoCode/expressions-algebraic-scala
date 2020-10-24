@@ -1,10 +1,8 @@
 package edu.luc.cs.cs371.expressionsAlgebraic
 
-import higherkindness.droste._
-
-import org.scalacheck.{Prop, Properties}
-
 import behaviors._
+import higherkindness.droste._
+import org.scalacheck.{Prop, Properties}
 
 object behaviorTests extends Properties("behaviorTests") {
 
