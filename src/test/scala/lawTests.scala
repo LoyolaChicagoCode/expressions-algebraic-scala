@@ -27,7 +27,7 @@ object lawTests extends Properties("lawTests") {
   def genDiv[A](g: Gen[A]) = (g, g).mapN(Div(_, _))
   def genMod[A](g: Gen[A]) = (g, g).mapN(Mod(_, _))
 
-  implicit def arbExprF[A: Arbitrary]: Arbitrary[ExprF[A]] = Arbitrary {
+  implicit def exprFArbitrary[A: Arbitrary]: Arbitrary[ExprF[A]] = Arbitrary {
     val i = Arbitrary.arbInt.arbitrary
     val g = Arbitrary.arbitrary[A]
     Gen.oneOf(genConstant(i), genUMinus(g), genPlus(g), genMinus(g), genTimes(g), genDiv(g), genMod(g))
