@@ -18,7 +18,7 @@ object structures {
     * @tparam A argument of the endofunctor
     */
   sealed trait ExprF[+A]
-  case class Constant[A](value: Int) extends ExprF[A]
+  case class Constant(value: Int) extends ExprF[Nothing]
   case class UMinus[A](expr: A) extends ExprF[A]
   case class Plus[A](left: A, right: A) extends ExprF[A]
   case class Minus[A](left: A, right: A) extends ExprF[A]
