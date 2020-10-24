@@ -1,8 +1,9 @@
 package edu.luc.cs.cs371.expressionsAlgebraic
 
-import structures.Expr._
-
 object fixtures {
+
+  import structures.Expr._
+
   val simple1 = plus(constant(1), constant(2))
 
   val simple2 = minus(constant(3), constant(2))
