@@ -36,13 +36,13 @@ object structures {
     */
   object exprFFunctor extends Functor[ExprF] {
     override def map[A, B](fa: ExprF[A])(f: A => B): ExprF[B] = fa match {
-      case Constant(v) => Constant(v)
-      case UMinus(r)   => UMinus(f(r))
-      case Plus(l, r)  => Plus(f(l), f(r))
-      case Minus(l, r) => Minus(f(l), f(r))
-      case Times(l, r) => Times(f(l), f(r))
-      case Div(l, r)   => Div(f(l), f(r))
-      case Mod(l, r)   => Mod(f(l), f(r))
+      case c @ Constant(v) => c
+      case UMinus(r)       => UMinus(f(r))
+      case Plus(l, r)      => Plus(f(l), f(r))
+      case Minus(l, r)     => Minus(f(l), f(r))
+      case Times(l, r)     => Times(f(l), f(r))
+      case Div(l, r)       => Div(f(l), f(r))
+      case Mod(l, r)       => Mod(f(l), f(r))
     }
   }
 
@@ -60,13 +60,13 @@ object structures {
   implicit val exprFTraverse: Traverse[ExprF] = new Traverse[ExprF] {
     import cats.implicits._
     override def traverse[G[_]: Applicative, A, B](fa: ExprF[A])(f: A => G[B]): G[ExprF[B]] = fa match {
-      case Constant(v) => (Constant(v): ExprF[B]).pure[G]
-      case UMinus(r)   => f(r).map(UMinus(_))
-      case Plus(l, r)  => (f(l), f(r)).mapN(Plus(_, _))
-      case Minus(l, r) => (f(l), f(r)).mapN(Minus(_, _))
-      case Times(l, r) => (f(l), f(r)).mapN(Times(_, _))
-      case Div(l, r)   => (f(l), f(r)).mapN(Div(_, _))
-      case Mod(l, r)   => (f(l), f(r)).mapN(Mod(_, _))
+      case c @ Constant(v) => (c: ExprF[B]).pure[G]
+      case UMinus(r)       => f(r).map(UMinus(_))
+      case Plus(l, r)      => (f(l), f(r)).mapN(Plus(_, _))
+      case Minus(l, r)     => (f(l), f(r)).mapN(Minus(_, _))
+      case Times(l, r)     => (f(l), f(r)).mapN(Times(_, _))
+      case Div(l, r)       => (f(l), f(r)).mapN(Div(_, _))
+      case Mod(l, r)       => (f(l), f(r)).mapN(Mod(_, _))
     }
     // TODO working implementations of foldRight and foldLeft
     // problem: need Monoid or Applicative to implement foldRight as foldMap or traverse
