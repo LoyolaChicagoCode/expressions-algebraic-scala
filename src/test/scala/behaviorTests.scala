@@ -25,4 +25,12 @@ object behaviorTests extends Properties("behaviorTests") {
   property("evaluateNat2") = Prop { en(fixtures.simple2) === Some(1) }
   property("evaluateNat3") = Prop { en(fixtures.complex1) === None }
   property("evaluateNat4") = Prop { en(fixtures.complex2) === None }
+
+  // Equality is defined only on the common endofunctor supertype ExprF.
+  // Therefore, we need to use a type annotation to enable equality on
+  // a specific variant of the endofunctor.
+  import structures._
+  val co = UMinus(Constant(1))
+  property("safeEq") = Prop { (co: ExprF[Constant]) === co }
+  property("unsafeEq") = Prop { co == co }
 }
