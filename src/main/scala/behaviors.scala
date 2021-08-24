@@ -53,12 +53,12 @@ object behaviors {
     * evaluation fails.
     */
   val evaluateNat: Algebra[ExprF, Option[Int]] = Algebra {
-    case Constant(c) => for { v <- Some(c); if v >= 0 } yield v
+    case Constant(c) => for  v <- Some(c); if v >= 0  yield v
     case UMinus(r)   => None
-    case Plus(l, r)  => for { l1 <- l; r1 <- r } yield l1 + r1
-    case Minus(l, r) => for { l1 <- l; r1 <- r; if l1 >= r1 } yield l1 - r1
-    case Times(l, r) => for { l1 <- l; r1 <- r } yield l1 * r1
-    case Div(l, r)   => for { l1 <- l; r1 <- r } yield l1 / r1
-    case Mod(l, r)   => for { l1 <- l; r1 <- r } yield l1 % r1
+    case Plus(l, r)  => for  l1 <- l; r1 <- r  yield l1 + r1
+    case Minus(l, r) => for  l1 <- l; r1 <- r; if l1 >= r1  yield l1 - r1
+    case Times(l, r) => for  l1 <- l; r1 <- r  yield l1 * r1
+    case Div(l, r)   => for  l1 <- l; r1 <- r  yield l1 / r1
+    case Mod(l, r)   => for  l1 <- l; r1 <- r  yield l1 % r1
   }
 }
