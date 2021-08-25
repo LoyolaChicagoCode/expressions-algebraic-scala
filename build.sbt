@@ -8,7 +8,7 @@ scalacOptions ++= Seq(
   "-deprecation",
   "-feature",
   "-unchecked",
-  "-Yexplicit-nulls",
+  "-Yexplicit-nulls", "-language:strictEquality",
   "-language:higherKinds"
 )
 

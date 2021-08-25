@@ -8,12 +8,12 @@ object lawTests extends Properties("lawTests") {
 
   import structures._, ExprF._, Expr._
 
-  property("equals1") = Prop { (Constant(3): ExprF[Nothing]) === Constant(3) }
-  property("equals2") = Prop { constant(3) === constant(3) }
-  property("equals3") = Prop { uminus(constant(3)) === uminus(constant(3)) }
+  property("equals1") = Prop { (Constant(3): ExprF[Nothing]) == Constant(3) }
+  property("equals2") = Prop { constant(3) == constant(3) }
+  property("equals3") = Prop { uminus(constant(3)) == uminus(constant(3)) }
 
-  property("toString1") = Prop { UMinus(Constant(3)).toString === "UMinus(Constant(3))" }
-  property("toString2") = Prop { uminus(constant(3)).toString === "UMinus(Constant(3))" }
+  property("toString1") = Prop { UMinus(Constant(3)).toString == "UMinus(Constant(3))" }
+  property("toString2") = Prop { uminus(constant(3)).toString == "UMinus(Constant(3))" }
 
   // TODO check if Traverse can help with this
   // η = point, ∘ = map, ⊛ = apply2

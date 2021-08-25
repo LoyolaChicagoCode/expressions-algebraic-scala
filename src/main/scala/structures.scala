@@ -17,7 +17,7 @@ object structures {
     *
     * @tparam A argument of the endofunctor
     */
-  enum ExprF[+A]:
+  enum ExprF[+A] derives CanEqual:
     case Constant(value: Int) extends ExprF[Nothing]
     case UMinus[A](expr: A) extends ExprF[A]
     case Plus[A](left: A, right: A) extends ExprF[A]
@@ -84,6 +84,9 @@ object structures {
 
   /** Least fixpoint of `ExprF` as carrier object for the initial algebra. */
   type Expr = Fix[ExprF]
+
+  /** Enable typesafe equality for `Expr`. */
+  given CanEqual[Expr, Expr] = CanEqual.derived
 
   /** Factory for creating Expr instances. */
   object Expr {
