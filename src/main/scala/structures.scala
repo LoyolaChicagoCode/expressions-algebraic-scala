@@ -62,7 +62,7 @@ object structures {
   implicit val exprFTraverse: Traverse[ExprF] = new Traverse[ExprF] {
     import cats.implicits._
     override def traverse[G[_]: Applicative, A, B](fa: ExprF[A])(f: A => G[B]): G[ExprF[B]] = fa match {
-      case c @ Constant(v) => (c: ExprF[B]).pure[G]
+      case c @ Constant(v) => c.pure[G]
       case UMinus(r)       => f(r).map(UMinus(_))
       case Plus(l, r)      => (f(l), f(r)).mapN(Plus(_, _))
       case Minus(l, r)     => (f(l), f(r)).mapN(Minus(_, _))
@@ -87,13 +87,13 @@ object structures {
 
   /** Factory for creating Expr instances. */
   object Expr {
-    def constant(c: Int) = Fix[ExprF](Constant(c))
-    def uminus(r: Expr) = Fix[ExprF](UMinus(r))
-    def plus(l: Expr, r: Expr) = Fix[ExprF](Plus(l, r))
-    def minus(l: Expr, r: Expr) = Fix[ExprF](Minus(l, r))
-    def times(l: Expr, r: Expr) = Fix[ExprF](Times(l, r))
-    def div(l: Expr, r: Expr) = Fix[ExprF](Div(l, r))
-    def mod(l: Expr, r: Expr) = Fix[ExprF](Mod(l, r))
+    def constant(c: Int) = Fix(Constant(c))
+    def uminus(r: Expr) = Fix(UMinus(r))
+    def plus(l: Expr, r: Expr) = Fix(Plus(l, r))
+    def minus(l: Expr, r: Expr) = Fix(Minus(l, r))
+    def times(l: Expr, r: Expr) = Fix(Times(l, r))
+    def div(l: Expr, r: Expr) = Fix(Div(l, r))
+    def mod(l: Expr, r: Expr) = Fix(Mod(l, r))
   }
 
   implicit val exprEquals: Eq[Expr] = Eq.fromUniversalEquals
