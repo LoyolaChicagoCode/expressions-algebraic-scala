@@ -7,6 +7,7 @@ import org.scalacheck.{Prop, Properties}
 object behaviorTests extends Properties("behaviorTests") {
 
   import behaviors._
+  import structures.ExprF, ExprF._
 
   val ev = scheme.cata(evaluate)
   property("evaluate1") = Prop { ev(fixtures.complex1) === -1 }
@@ -26,11 +27,11 @@ object behaviorTests extends Properties("behaviorTests") {
   property("evaluateNat3") = Prop { en(fixtures.complex1) === None }
   property("evaluateNat4") = Prop { en(fixtures.complex2) === None }
 
-  // Equality is defined only on the common endofunctor supertype ExprF.
-  // Therefore, we need to use a type annotation to enable equality on
-  // a specific variant of the endofunctor.
   import structures._
-  val co = UMinus(Constant(1))
-  property("safeEq") = Prop { (co: ExprF[Constant]) === co }
-  property("unsafeEq") = Prop { co == co }
+  val one = UMinus(Constant(1))
+  val two = UMinus(Constant(2))
+  property("safeEq1") = Prop { one === one }
+  property("safeEq2") = Prop { one =!= two }
+  property("unsafeEq1") = Prop { one == one }
+  property("unsafeEq2") = Prop { one != two }
 }

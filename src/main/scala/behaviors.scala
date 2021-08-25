@@ -9,7 +9,8 @@ import higherkindness.droste._
   */
 object behaviors {
 
-  import structures._
+  import structures.ExprF
+  import ExprF._
 
   // TODO parsing as unfold (prefix or postfix notation)
   // TODO unparsing/printing

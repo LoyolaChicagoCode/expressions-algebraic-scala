@@ -6,8 +6,7 @@ import org.scalacheck.{Arbitrary, Gen, Prop, Properties}
 
 object lawTests extends Properties("lawTests") {
 
-  import structures.Expr._
-  import structures._
+  import structures._, ExprF._, Expr._
 
   property("equals1") = Prop { (Constant(3): ExprF[Nothing]) === Constant(3) }
   property("equals2") = Prop { constant(3) === constant(3) }

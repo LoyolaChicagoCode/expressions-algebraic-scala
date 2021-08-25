@@ -17,14 +17,16 @@ object structures {
     *
     * @tparam A argument of the endofunctor
     */
-  sealed trait ExprF[+A]
-  case class Constant(value: Int) extends ExprF[Nothing]
-  case class UMinus[A](expr: A) extends ExprF[A]
-  case class Plus[A](left: A, right: A) extends ExprF[A]
-  case class Minus[A](left: A, right: A) extends ExprF[A]
-  case class Times[A](left: A, right: A) extends ExprF[A]
-  case class Div[A](left: A, right: A) extends ExprF[A]
-  case class Mod[A](left: A, right: A) extends ExprF[A]
+  enum ExprF[+A]:
+    case Constant(value: Int) extends ExprF[Nothing]
+    case UMinus[A](expr: A) extends ExprF[A]
+    case Plus[A](left: A, right: A) extends ExprF[A]
+    case Minus[A](left: A, right: A) extends ExprF[A]
+    case Times[A](left: A, right: A) extends ExprF[A]
+    case Div[A](left: A, right: A) extends ExprF[A]
+    case Mod[A](left: A, right: A) extends ExprF[A]
+
+  import ExprF._
 
   /**
     * Implicit value for declaring `ExprF` as an instance of
