@@ -9,11 +9,11 @@ object behaviorTests extends Properties("behaviorTests") {
   import behaviors._
   import structures._, ExprF._
 
-  /** Enable typesafe equality between `None` and `Option`. */
-  given CanEqual[Option[Int], None.type] = CanEqual.derived
+  /** Enable missing typesafe equality between `None` and `Option`. */
+  given CanEqual[Option[_], None.type] = CanEqual.derived
 
-  /** Enable typesafe equality between `Some` and `Option`. */
-  given CanEqual[Option[Int], Some[Int]] = CanEqual.derived
+  /** Enable missing typesafe equality between `Some` and `Option`. */
+  given [T](using eq: CanEqual[T, T]): CanEqual[Option[T], Some[T]] = CanEqual.derived
 
   val ev = scheme.cata(evaluate)
   property("evaluate1") = Prop { ev(fixtures.complex1) == -1 }
