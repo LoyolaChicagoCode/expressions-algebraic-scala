@@ -2,7 +2,7 @@ package edu.luc.cs.cs371.expressionsAlgebraic
 
 object fixtures {
 
-  import structures.Expr._
+  import structures.Expr.*
 
   val simple1 = plus(constant(1), constant(2))
 

@@ -26,7 +26,7 @@ object structures {
     case Div[A](left: A, right: A) extends ExprF[A]
     case Mod[A](left: A, right: A) extends ExprF[A]
 
-  import ExprF._
+  import ExprF.{given, *}
 
   /**
     * Implicit value for declaring `ExprF` as an instance of
@@ -48,9 +48,9 @@ object structures {
     }
   }
 
-  implicit def exprFEquals[A]: Eq[ExprF[A]] = Eq.fromUniversalEquals
+  given [T](using Eq[T]): Eq[ExprF[T]] = Eq.fromUniversalEquals
 
-  implicit def exprFShow[A]: Show[ExprF[A]] = Show.fromToString
+  given [T](using Show[T]): Show[ExprF[T]] = Show.fromToString
 
   // TODO bring this back
 
@@ -59,8 +59,8 @@ object structures {
     * typeclass `Traverse` in Cats. This requires us to define
     * `traverse`.
     */
-  implicit val exprFTraverse: Traverse[ExprF] = new Traverse[ExprF] {
-    import cats.implicits._
+  given Traverse[ExprF] = new Traverse[ExprF] {
+    import cats.implicits.*
     override def traverse[G[_]: Applicative, A, B](fa: ExprF[A])(f: A => G[B]): G[ExprF[B]] = fa match {
       case c @ Constant(v) => c.pure[G]
       case UMinus(r)       => f(r).map(UMinus(_))
@@ -99,7 +99,7 @@ object structures {
     def mod(l: Expr, r: Expr) = Fix(Mod(l, r))
   }
 
-  implicit val exprEquals: Eq[Expr] = Eq.fromUniversalEquals
+  given Eq[Expr] = Eq.fromUniversalEquals
 
-  implicit val exprShow: Show[Expr] = Show.fromToString
+  given Show[Expr] = Show.fromToString
 }

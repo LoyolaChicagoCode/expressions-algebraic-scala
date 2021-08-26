@@ -1,6 +1,6 @@
 package edu.luc.cs.cs371.expressionsAlgebraic
 
-import higherkindness.droste._
+import higherkindness.droste.*
 
 /**
   * In this example, we define several behaviors of arithmetic expressions
@@ -10,7 +10,7 @@ import higherkindness.droste._
 object behaviors {
 
   import structures.ExprF
-  import ExprF._
+  import ExprF.*
 
   // TODO parsing as unfold (prefix or postfix notation)
   // TODO unparsing/printing

@@ -6,14 +6,14 @@ import org.scalacheck.{Prop, Properties}
 
 object behaviorTests extends Properties("behaviorTests") {
 
-  import behaviors._
-  import structures._, ExprF._
+  import behaviors.*
+  import structures.*, ExprF.*
 
   /** Enable missing typesafe equality between `None` and `Option`. */
-  given CanEqual[Option[_], None.type] = CanEqual.derived
+  given [T](using CanEqual[T, T]): CanEqual[Option[T], None.type] = CanEqual.derived
 
   /** Enable missing typesafe equality between `Some` and `Option`. */
-  given [T](using eq: CanEqual[T, T]): CanEqual[Option[T], Some[T]] = CanEqual.derived
+  given [T](using CanEqual[T, T]): CanEqual[Option[T], Some[T]] = CanEqual.derived
 
   val ev = scheme.cata(evaluate)
   property("evaluate1") = Prop { ev(fixtures.complex1) == -1 }
@@ -33,7 +33,6 @@ object behaviorTests extends Properties("behaviorTests") {
   property("evaluateNat3") = Prop { en(fixtures.complex1) == None }
   property("evaluateNat4") = Prop { en(fixtures.complex2) == None }
 
-  import structures._
   val one = UMinus(Constant(1))
   val two = UMinus(Constant(2))
   property("safeEq1") = Prop { one == one }

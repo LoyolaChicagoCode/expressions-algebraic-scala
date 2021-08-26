@@ -1,12 +1,12 @@
 package edu.luc.cs.cs371.expressionsAlgebraic
 
-import cats.implicits._
-import org.scalacheck.cats.implicits._
+import cats.implicits.*
+import org.scalacheck.cats.implicits.*
 import org.scalacheck.{Arbitrary, Gen, Prop, Properties}
 
 object lawTests extends Properties("lawTests") {
 
-  import structures._, ExprF._, Expr._
+  import structures.*, ExprF.*, Expr.*
 
   property("equals1") = Prop { (Constant(3): ExprF[Nothing]) == Constant(3) }
   property("equals2") = Prop { constant(3) == constant(3) }
@@ -26,7 +26,7 @@ object lawTests extends Properties("lawTests") {
   def genDiv[A](g: Gen[A]) = (g, g).mapN(Div(_, _))
   def genMod[A](g: Gen[A]) = (g, g).mapN(Mod(_, _))
 
-  implicit def exprFArbitrary[A: Arbitrary]: Arbitrary[ExprF[A]] = Arbitrary {
+  given [A](using Arbitrary[A]): Arbitrary[ExprF[A]] = Arbitrary {
     val i = Arbitrary.arbInt.arbitrary
     val g = Arbitrary.arbitrary[A]
     Gen.oneOf(genConstant(i), genUMinus(g), genPlus(g), genMinus(g), genTimes(g), genDiv(g), genMod(g))
