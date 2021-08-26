@@ -26,7 +26,7 @@ object structures {
     case Div[A](left: A, right: A) extends ExprF[A]
     case Mod[A](left: A, right: A) extends ExprF[A]
 
-  import ExprF.{given, *}
+  import ExprF.*
 
   /**
     * Implicit value for declaring `ExprF` as an instance of
