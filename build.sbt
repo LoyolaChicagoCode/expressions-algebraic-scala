@@ -2,7 +2,7 @@ name := "expressions-algebraic-scala"
 
 version := "0.4"
 
-scalaVersion := "3.0.1"
+scalaVersion := "3.1.3"
 
 scalacOptions ++= Seq(
   "-deprecation",
