@@ -4,7 +4,7 @@ import cats.implicits.*
 import org.scalacheck.cats.implicits.*
 import org.scalacheck.{Arbitrary, Gen, Prop, Properties}
 
-object lawTests extends Properties("lawTests") {
+object lawTests extends Properties("lawTests"):
 
   import structures.*, ExprF.*, Expr.*
 
@@ -41,4 +41,5 @@ object lawTests extends Properties("lawTests") {
 
   include(cats.laws.discipline.FunctorTests[ExprF].functor[Int, Int, Int].all)
   //  include(cats.laws.discipline.TraverseTests[ExprF].traverse[Int, Int, Int, Int, Option, Option].all)
-}
+
+end lawTests

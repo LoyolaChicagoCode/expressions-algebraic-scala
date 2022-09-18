@@ -7,7 +7,7 @@ import higherkindness.droste.*
   * as specific ExprF-algebras. Note the nonrecursive nature of these
   * algebras.
   */
-object behaviors {
+object behaviors:
 
   import structures.ExprF
   import ExprF.*
@@ -62,4 +62,5 @@ object behaviors {
     case Div(l, r)   => for l1 <- l; r1 <- r  yield l1 / r1
     case Mod(l, r)   => for l1 <- l; r1 <- r  yield l1 % r1
   }
-}
+
+end behaviors

@@ -7,7 +7,7 @@ import higherkindness.droste.data.Fix
   * In this example, we represent arithmetic expressions as trees
   * (initial algebra for the endofunctor defined below).
   */
-object structures {
+object structures:
 
   /**
     * Endofunctor for (nongeneric) F-algebra in the category Scala types.
@@ -36,8 +36,8 @@ object structures {
     * instance below, which defines a further generalization
     * of `map`.
     */
-  object exprFFunctor extends Functor[ExprF] {
-    override def map[A, B](fa: ExprF[A])(f: A => B): ExprF[B] = fa match {
+  object exprFFunctor extends Functor[ExprF]:
+    override def map[A, B](fa: ExprF[A])(f: A => B): ExprF[B] = fa match
       case c @ Constant(v) => c
       case UMinus(r)       => UMinus(f(r))
       case Plus(l, r)      => Plus(f(l), f(r))
@@ -45,8 +45,7 @@ object structures {
       case Times(l, r)     => Times(f(l), f(r))
       case Div(l, r)       => Div(f(l), f(r))
       case Mod(l, r)       => Mod(f(l), f(r))
-    }
-  }
+  end exprFFunctor
 
   given [T](using Eq[T]): Eq[ExprF[T]] = Eq.fromUniversalEquals
 
@@ -59,9 +58,9 @@ object structures {
     * typeclass `Traverse` in Cats. This requires us to define
     * `traverse`.
     */
-  given Traverse[ExprF] = new Traverse[ExprF] {
+  given Traverse[ExprF] = new Traverse[ExprF]:
     import cats.implicits.*
-    override def traverse[G[_]: Applicative, A, B](fa: ExprF[A])(f: A => G[B]): G[ExprF[B]] = fa match {
+    override def traverse[G[_]: Applicative, A, B](fa: ExprF[A])(f: A => G[B]): G[ExprF[B]] = fa match
       case c @ Constant(v) => c.pure[G]
       case UMinus(r)       => f(r).map(UMinus(_))
       case Plus(l, r)      => (f(l), f(r)).mapN(Plus(_, _))
@@ -69,7 +68,6 @@ object structures {
       case Times(l, r)     => (f(l), f(r)).mapN(Times(_, _))
       case Div(l, r)       => (f(l), f(r)).mapN(Div(_, _))
       case Mod(l, r)       => (f(l), f(r)).mapN(Mod(_, _))
-    }
     // TODO working implementations of foldRight and foldLeft
     // problem: need Monoid or Applicative to implement foldRight as foldMap or traverse
     def foldRight[A, B](fa: ExprF[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] = ???
@@ -79,8 +77,6 @@ object structures {
     //      foldMap(fa)(f(_, lb))
     //  import cats.data.Const
     //      traverse[Const[Eval[B], *], A, Eval[B]](fa)(a => Const(f(a, lb))).getConst
-    //    }
-  }
 
   /** Least fixpoint of `ExprF` as carrier object for the initial algebra. */
   type Expr = Fix[ExprF]
@@ -89,7 +85,7 @@ object structures {
   given CanEqual[Expr, Expr] = CanEqual.derived
 
   /** Factory for creating Expr instances. */
-  object Expr {
+  object Expr:
     def constant(c: Int) = Fix(Constant(c))
     def uminus(r: Expr) = Fix(UMinus(r))
     def plus(l: Expr, r: Expr) = Fix(Plus(l, r))
@@ -97,9 +93,10 @@ object structures {
     def times(l: Expr, r: Expr) = Fix(Times(l, r))
     def div(l: Expr, r: Expr) = Fix(Div(l, r))
     def mod(l: Expr, r: Expr) = Fix(Mod(l, r))
-  }
+  end Expr
 
   given Eq[Expr] = Eq.fromUniversalEquals
 
   given Show[Expr] = Show.fromToString
-}
+
+end structures

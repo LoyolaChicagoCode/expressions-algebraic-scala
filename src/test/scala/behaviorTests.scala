@@ -4,7 +4,7 @@ import cats.implicits.*
 import higherkindness.droste.*
 import org.scalacheck.{Prop, Properties}
 
-object behaviorTests extends Properties("behaviorTests") {
+object behaviorTests extends Properties("behaviorTests"):
 
   import behaviors.*
   import structures.*, ExprF.*
@@ -33,4 +33,5 @@ object behaviorTests extends Properties("behaviorTests") {
   property("safeEq2") = Prop { one != two }
   property("unsafeEq1") = Prop { one == one }
   property("unsafeEq2") = Prop { one != two }
-}
+
+end behaviorTests

@@ -1,6 +1,6 @@
 package edu.luc.cs.cs371.expressionsAlgebraic
 
-object fixtures {
+object fixtures:
 
   import structures.Expr.*
 
@@ -41,4 +41,4 @@ object fixtures {
       ),
       constant(5)
     )
-}
+end fixtures
