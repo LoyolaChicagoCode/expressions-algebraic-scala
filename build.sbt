@@ -2,13 +2,15 @@ name := "expressions-algebraic-scala"
 
 version := "0.4"
 
-scalaVersion := "3.1.3"
+scalaVersion := "3.2.0"
 
 scalacOptions ++= Seq(
   "-deprecation",
   "-feature",
   "-unchecked",
-  "-Yexplicit-nulls", "-language:strictEquality",
+  "-Yexplicit-nulls",
+  "-Ysafe-init",
+  "-language:strictEquality",
   "-language:higherKinds"
 )
 
@@ -17,5 +19,3 @@ libraryDependencies ++= Seq(
   "io.chrisdavenport"          %% "cats-scalacheck"           % "0.3.1" % Test,
   "org.typelevel"              %% "cats-laws"                 % "2.8.0" % Test
 )
-
-scalacOptions ++= Seq("-rewrite", "-new-syntax")
