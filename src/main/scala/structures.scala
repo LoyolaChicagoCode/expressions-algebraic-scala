@@ -19,12 +19,12 @@ object structures:
     */
   enum ExprF[+A] derives CanEqual:
     case Constant(value: Int) extends ExprF[Nothing]
-    case UMinus[A](expr: A) extends ExprF[A]
-    case Plus[A](left: A, right: A) extends ExprF[A]
-    case Minus[A](left: A, right: A) extends ExprF[A]
-    case Times[A](left: A, right: A) extends ExprF[A]
-    case Div[A](left: A, right: A) extends ExprF[A]
-    case Mod[A](left: A, right: A) extends ExprF[A]
+    case UMinus(expr: A)
+    case Plus(left: A, right: A)
+    case Minus(left: A, right: A)
+    case Times(left: A, right: A)
+    case Div(left: A, right: A)
+    case Mod(left: A, right: A)
 
   import ExprF.*
 
