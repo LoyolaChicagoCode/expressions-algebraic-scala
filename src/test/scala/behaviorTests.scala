@@ -7,7 +7,7 @@ import org.scalacheck.{Prop, Properties}
 object behaviorTests extends Properties("behaviorTests"):
 
   import behaviors.*
-  import structures.*, ExprF.*
+  import structures.ExprF.{ Constant, UMinus }
 
   val ev = scheme.cata(evaluate)
   property("evaluate1") = Prop { ev(fixtures.complex1) == -1 }

@@ -26,11 +26,10 @@ object lawTests extends Properties("lawTests"):
   def genDiv[A](g: Gen[A]) = (g, g).mapN(Div(_, _))
   def genMod[A](g: Gen[A]) = (g, g).mapN(Mod(_, _))
 
-  given [A](using Arbitrary[A]): Arbitrary[ExprF[A]] = Arbitrary {
+  given [A](using Arbitrary[A]): Arbitrary[ExprF[A]] = Arbitrary:
     val i = Arbitrary.arbInt.arbitrary
     val g = Arbitrary.arbitrary[A]
     Gen.oneOf(genConstant(i), genUMinus(g), genPlus(g), genMinus(g), genTimes(g), genDiv(g), genMod(g))
-  }
 
   //  include(equal.laws[ExprF[Int]], "equalExprFInt.")
   //  include(equal.laws[ExprF[ExprF[Int]]], "equalExprF2Int.")
