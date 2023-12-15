@@ -39,6 +39,6 @@ object lawTests extends Properties("lawTests"):
   //include(equal.laws[Expr], "equalExpr.")
 
   include(cats.laws.discipline.FunctorTests[ExprF].functor[Int, Int, Int].all)
-  //  include(cats.laws.discipline.TraverseTests[ExprF].traverse[Int, Int, Int, Int, Option, Option].all)
+  include(cats.laws.discipline.TraverseTests[ExprF].traverse[Int, Int, Int, Int, Option, Option].all)
 
 end lawTests

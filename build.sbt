@@ -2,7 +2,7 @@ name := "expressions-algebraic-scala"
 
 version := "0.4"
 
-scalaVersion := "3.3.0"
+scalaVersion := "3.3.1"
 
 scalacOptions += "@.scalacOptions.txt"
 
