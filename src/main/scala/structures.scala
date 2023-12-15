@@ -46,7 +46,7 @@ object structures:
 //      case Times(l, r)     => Times(f(l), f(r))
 //      case Div(l, r)       => Div(f(l), f(r))
 //      case Mod(l, r)       => Mod(f(l), f(r))
-//  end exprFFunctor
+//  // end Functor[ExprF]
 
   given [T](using Eq[T]): Eq[ExprF[T]] = Eq.fromUniversalEquals
 
@@ -67,6 +67,7 @@ object structures:
       case Times(l, r)     => (f(l), f(r)).mapN(Times(_, _))
       case Div(l, r)       => (f(l), f(r)).mapN(Div(_, _))
       case Mod(l, r)       => (f(l), f(r)).mapN(Mod(_, _))
+  // end Traverse[ExprF]
 
   /** Least fixpoint of `ExprF` as carrier object for the initial algebra. */
   type Expr = Fix[ExprF]
