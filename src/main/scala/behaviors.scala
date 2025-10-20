@@ -19,8 +19,8 @@ object behaviors:
   val evaluate: Algebra[ExprF, Int] = Algebra:
     case Constant(c) => c
     case UMinus(r)   => -r
-    case Plus(l, r)  => l + r
-    case Minus(l, r) => l - r
+    case Plus(l, r)  => l + r // Seq(l, r).sum
+    case Minus(l, r) => l - r // Seq(l, r).foldLeft(_ - _)
     case Times(l, r) => l * r
     case Div(l, r)   => l / r
     case Mod(l, r)   => l % r
@@ -29,7 +29,7 @@ object behaviors:
   val size: Algebra[ExprF, Int] = Algebra:
     case Constant(_) => 1
     case UMinus(r)   => 1 + r
-    case Plus(l, r)  => 1 + l + r
+    case Plus(l, r)  => 1 + l + r // Seq(l, r).sum
     case Minus(l, r) => 1 + l + r
     case Times(l, r) => 1 + l + r
     case Div(l, r)   => 1 + l + r
@@ -39,7 +39,7 @@ object behaviors:
   val height: Algebra[ExprF, Int] = Algebra:
     case Constant(_) => 1
     case UMinus(r)   => 1 + r
-    case Plus(l, r)  => 1 + math.max(l, r)
+    case Plus(l, r)  => 1 + math.max(l, r) // Seq(l, r).max
     case Minus(l, r) => 1 + math.max(l, r)
     case Times(l, r) => 1 + math.max(l, r)
     case Div(l, r)   => 1 + math.max(l, r)
